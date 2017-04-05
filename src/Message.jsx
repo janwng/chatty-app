@@ -5,7 +5,7 @@ class Message extends Component {
     const msgUsername = this.props.message.username;
     const msgContent = this.props.message.content;
     return (
-      <div>
+      <div className="message">
         <span className="message-username">{msgUsername}</span>
         <span className="message-content">{msgContent}</span>
       </div>
