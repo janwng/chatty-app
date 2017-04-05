@@ -29,13 +29,12 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
 
-        <main className="messages">
-          <MessageList messages={this.state.messages} />
+        <MessageList messages={this.state.messages} />
 
-          <div className="message system">
-            Anonymous1 changed their name to nomnom.
-          </div>
-        </main>
+        <div className="message system">
+          Anonymous1 changed their name to nomnom.
+        </div>
+
         <Chatbar currentUser={this.state.currentUser.name} />
       </div>
     );

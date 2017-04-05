@@ -4,13 +4,13 @@ import Message from './Message.jsx';
 class MessageList extends Component {
   render() {
     return (
-      <div className="message">
+      <main className="messages">
         {
           this.props.messages.map((currentMessage) => {
             return <Message message={currentMessage} key={currentMessage.id} />
           })
         }
-      </div>
+      </main>
     );
   }
 }
