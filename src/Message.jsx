@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 
 class Message extends Component {
   render() {
-    console.log(Message);
-    const msgUsername = 'Anonymous1';
-    const msgContent = 'I wont be impressed with technology until I can download food.';
+    const msgUsername = this.props.message.username;
+    const msgContent = this.props.message.content;
     return (
       <div>
         <span className="message-username">{msgUsername}</span>

@@ -5,6 +5,7 @@ var config = require('./webpack.config');
 new WebpackDevServer(webpack(config), {
     publicPath: config.output.publicPath,
     watchOptions: {
+      ignored: /node_modules/,
       aggregateTimeout: 300,
       poll: 3000 //used to be 1000, how long before it compares dom for changes
     }
