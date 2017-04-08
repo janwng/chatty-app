@@ -4,15 +4,9 @@ class Chatbar extends Component {
 
   constructor(props){
     super(props);
-    this.handleKeyPressUsername = this.handleKeyPressUsername.bind(this);
     this.handleKeyPressMessage = this.handleKeyPressMessage.bind(this);
+    this.handleKeyPressUsername = this.handleKeyPressUsername.bind(this);
 
-  }
-
-  handleKeyPressUsername(event) {
-    if(event.key === 'Enter'){
-      this.props.onNewUsername(event.target.value);
-    }
   }
 
   handleKeyPressMessage(event) {
@@ -21,9 +15,15 @@ class Chatbar extends Component {
     }
   }
 
+  handleKeyPressUsername(event) {
+    if(event.key === 'Enter'){
+      this.props.onNewUsername(event.target.value);
+    }
+  }
+
   render() {
-    const chatbarUsername = this.props.currentUser.name;
-    const chatbarMessage = 'Type a message and hit ENTER';
+    const chatbarUsername = this.props.currentUser;
+    // const chatbarMessage = 'Type a message and hit ENTER';
     return (
       <footer className="chatbar">
         <input
