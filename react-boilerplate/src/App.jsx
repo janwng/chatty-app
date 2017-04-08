@@ -7,30 +7,30 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: ''}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: []
     };
 
     this.onNewMessage = this.onNewMessage.bind(this);
-    
+    this.onNewUsername = this.onNewUsername.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  //
-  // onNewMessage(msgContent) {
-  //   let messages = this.state.messages;
-  //   let newMessage = messages.concat(
-  //     {
-  //     id: messages[messages.length - 1].id + 1,
-  //     username: this.state.currentUser.name,
-  //     content: msgContent
-  //   })
-  //
-  //   this.setState({messages: newMessage});
-  // }
+  // Function to change username
+  handleChange(event){
+    this.setState({currentUser.name: event.target.value});
+  }
+
+  // Function to output message if username is changed
+  handleSubmit(event) {
+    alert('Name got changed:' + this.state.currentUser.name);
+    event.preventDefault;
+  }
 
   // Function to create new messages
   onNewMessage(msgContent) {
-    let messages = this.state.messages;
+    // let messages = this.state.messages;
     let newMessage =
       {
         type: 'postMessage',
@@ -41,6 +41,17 @@ class App extends Component {
     // Send the message to the chatty server
     this.socket.send(JSON.stringify(newMessage));
   }
+  
+  // onNewUsername(name) {
+  //   // let username = this.state.currentUser.name;
+  //   let newUsername =
+  //     {
+  //       type: 'postUsername',
+  //       username: name
+  //     }
+  //   // Send the message to the chatty server
+  //   this.socket.send(JSON.stringify(newUsername));
+  // }
 
   componentDidMount() {
     // Open a connection
@@ -54,7 +65,6 @@ class App extends Component {
       // Receive message from server and console log it
       this.socket.onmessage = function(event) {
         console.log('Incoming message:', event.data);
-
         let receivedMessageObject = JSON.parse(event.data);
 
         let newMessages = parent.state.messages;
@@ -63,16 +73,6 @@ class App extends Component {
       }
     }
 
-    // console.log("componentDidMount <App />");
-    // setTimeout(() => {
-    //   console.log("Simulating incoming message");
-    //   // Add a new message to the list of messages in the data store
-    //   const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-    //   const messages = this.state.messages.concat(newMessage)
-    //   // Update the state of the app component.
-    //   // Calling setState will trigger a call to render() in App and all child components.
-    //   this.setState({messages: messages});
-    // }, 3000);
   }
 
   render() {
@@ -88,7 +88,7 @@ class App extends Component {
           Anonymous1 changed their name to nomnom.
         </div>
 
-        <Chatbar currentUser={this.state.currentUser.name} onNewMessage={this.onNewMessage}/>
+        <Chatbar currentUser={this.state.currentUser} onNewMessage={this.onNewMessage} onChange={this.handleChange} onSubmit={this.handleSubmit} />
       </div>
     );
   }
