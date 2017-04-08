@@ -12,7 +12,11 @@ class App extends Component {
     };
 
     this.onNewMessage = this.onNewMessage.bind(this);
+<<<<<<< HEAD
     // this.onNewUsername = this.onNewUsername.bind(this);
+=======
+    this.onNewUsername = this.onNewUsername.bind(this);
+>>>>>>> 2deb149eb62a8198cf4141651a71259fa4cff88f
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -41,6 +45,17 @@ class App extends Component {
     // Send the message to the chatty server
     this.socket.send(JSON.stringify(newMessage));
   }
+  
+  // onNewUsername(name) {
+  //   // let username = this.state.currentUser.name;
+  //   let newUsername =
+  //     {
+  //       type: 'postUsername',
+  //       username: name
+  //     }
+  //   // Send the message to the chatty server
+  //   this.socket.send(JSON.stringify(newUsername));
+  // }
 
   // onNewUsername(name) {
   //   // let username = this.state.currentUser.name;
