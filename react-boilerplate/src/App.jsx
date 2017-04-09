@@ -8,7 +8,8 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: {name: 'Anonymous'}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: []
+      messages: [],
+      notifications: []
     };
 
     this.onNewMessage = this.onNewMessage.bind(this);
@@ -32,7 +33,8 @@ class App extends Component {
     let newUsername =
     {
       type: 'postUsername',
-      username: name
+      username: name,
+      notification: this.state.currentUser.name + ' has changed their name to ' + name
     }
     // Send the message to the chatty server
     this.socket.send(JSON.stringify(newUsername));
@@ -53,16 +55,25 @@ class App extends Component {
 
         let stateMessages = parent.state.messages;
         let stateUsername = parent.state.currentUser.name;
+        let stateNotifications = parent.state.notifications;
 
         switch(receivedMessage.type) {
           case 'postMessage':
             let newMessage = stateMessages.concat(receivedMessage);
             parent.setState({messages: newMessage});
+
+            console.log("MESSAGE:", newMessage);
             break;
 
           case 'postUsername':
             parent.setState({currentUser: {name: receivedMessage.username}});
-            console.log("set state username:", parent.state.currentUser.name);
+
+            let newNotification = stateNotifications.concat(receivedMessage.notification);
+            parent.setState({notifications: newNotification});
+
+            console.log("change username to:", parent.state.currentUser.name);
+            console.log("NOTIFICATION:", receivedMessage);
+
             break;
         }
 
@@ -77,11 +88,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
 
-        <MessageList messages={this.state.messages} />
-
-        <div className="message system">
-          Anonymous1 changed their name to nomnom.
-        </div>
+        <MessageList messages={this.state.messages} notifications={this.state.notifications} />
 
         <Chatbar currentUser={this.state.currentUser.name} onNewMessage={this.onNewMessage} onNewUsername={this.onNewUsername}/>
       </div>
