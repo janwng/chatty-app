@@ -6,7 +6,6 @@ class Chatbar extends Component {
     super(props);
     this.handleKeyPressMessage = this.handleKeyPressMessage.bind(this);
     this.handleKeyPressUsername = this.handleKeyPressUsername.bind(this);
-
   }
 
   handleKeyPressMessage(event) {

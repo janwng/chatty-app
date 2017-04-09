@@ -9,7 +9,8 @@ class App extends Component {
     this.state = {
       currentUser: {name: 'Anonymous'}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
-      notifications: []
+      notifications: [],
+      connections: 0
     };
 
     this.onNewMessage = this.onNewMessage.bind(this);
@@ -73,7 +74,16 @@ class App extends Component {
 
             console.log("change username to:", parent.state.currentUser.name);
             console.log("NOTIFICATION:", receivedMessage);
+            break;
 
+          case 'connectionGain':
+            parent.setState({connections: receivedMessage.connections});
+            console.log('connected:', parent.state.connections);
+            break;
+
+          case 'connectionLost':
+            parent.setState({connections: receivedMessage.connections});
+            console.log('remaining:', parent.state.connections);
             break;
         }
 
@@ -86,6 +96,7 @@ class App extends Component {
       <div>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
+          <p className="online-users">{this.state.connections} user(s) online</p>
         </nav>
 
         <MessageList messages={this.state.messages} notifications={this.state.notifications} />
