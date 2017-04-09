@@ -10,7 +10,8 @@ class App extends Component {
       currentUser: {name: 'Anonymous'}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
       notifications: [],
-      connections: 0
+      connections: 0,
+      connectionLost: []
     };
 
     this.onNewMessage = this.onNewMessage.bind(this);
@@ -57,6 +58,8 @@ class App extends Component {
         let stateMessages = parent.state.messages;
         let stateUsername = parent.state.currentUser.name;
         let stateNotifications = parent.state.notifications;
+        let stateConnectionLost = parent.state.connectionLost;
+
 
         switch(receivedMessage.type) {
           case 'postMessage':
@@ -73,17 +76,17 @@ class App extends Component {
             parent.setState({notifications: newNotification});
 
             console.log("change username to:", parent.state.currentUser.name);
-            console.log("NOTIFICATION:", receivedMessage);
             break;
 
           case 'connectionGain':
             parent.setState({connections: receivedMessage.connections});
-            console.log('connected:', parent.state.connections);
             break;
 
           case 'connectionLost':
             parent.setState({connections: receivedMessage.connections});
-            console.log('remaining:', parent.state.connections);
+
+            let newConnectionLost = stateConnectionLost.concat(parent.state.currentUser.name + ' has left the channel.');
+            parent.setState({connectionLost: newConnectionLost})
             break;
         }
 
@@ -99,7 +102,7 @@ class App extends Component {
           <p className="online-users">{this.state.connections} user(s) online</p>
         </nav>
 
-        <MessageList messages={this.state.messages} notifications={this.state.notifications} />
+        <MessageList messages={this.state.messages} notifications={this.state.notifications} connectionLost={this.state.connectionLost}/>
 
         <Chatbar currentUser={this.state.currentUser.name} onNewMessage={this.onNewMessage} onNewUsername={this.onNewUsername}/>
       </div>

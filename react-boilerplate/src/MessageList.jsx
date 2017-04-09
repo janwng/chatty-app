@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Message from './Message.jsx';
 import Notification from './Notification.jsx';
+import LeftChannel from './LeftChannel.jsx';
+
 
 class MessageList extends Component {
   render() {
@@ -14,6 +16,11 @@ class MessageList extends Component {
         {
           this.props.messages.map((currentMessage) => {
             return <Message message={currentMessage} key={currentMessage.id} />
+          })
+        }
+        {
+          this.props.connectionLost.map((currentLeaveMsg) => {
+            return <LeftChannel leftChannel={currentLeaveMsg} key={currentLeaveMsg} />
           })
         }
       </main>
