@@ -60,7 +60,6 @@ class App extends Component {
         let stateNotifications = parent.state.notifications;
         let stateConnectionLost = parent.state.connectionLost;
 
-
         switch(receivedMessage.type) {
           case 'postMessage':
             let newMessage = stateMessages.concat(receivedMessage);
@@ -89,7 +88,6 @@ class App extends Component {
             parent.setState({connectionLost: newConnectionLost})
             break;
         }
-
       }
     }
   }
