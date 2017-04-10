@@ -8,11 +8,11 @@ class MessageList extends Component {
       <main className="messages">
         {
           this.props.messages.map((currentMessage) => {
-              if (currentMessage.type === 'postMessage') {
-                return <Message message={currentMessage} key={currentMessage.id} />
-              } else if (currentMessage.type === 'postUsername') {
-                return <Notification notification={currentMessage.notification} key={currentMessage.id} />
-              }
+            if (currentMessage.type === 'postMessage') {
+              return <Message message={currentMessage} key={currentMessage.id} />
+            } else if (currentMessage.type === 'postUsername') {
+              return <Notification notification={currentMessage.notification} key={currentMessage.id} />
+            }
           })
         }
       </main>

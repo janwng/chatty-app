@@ -59,23 +59,19 @@ class App extends Component {
           case 'postMessage':
             stateMessages.push(receivedMessage);
             parent.setState({messages: stateMessages});
-            console.log("MESSAGE:", receivedMessage);
             break;
 
           case 'postUsername':
             stateMessages.push(receivedMessage);
             parent.setState({messages: stateMessages});
-            console.log("MESSAGE:", receivedMessage.username);
             break;
 
           case 'connectionGain':
              parent.setState({connections: receivedMessage.connections});
-             console.log('connected:', parent.state.connections);
              break;
 
            case 'connectionLost':
              parent.setState({connections: receivedMessage.connections});
-             console.log('remaining:', parent.state.connections);
              break;
         }
       }
