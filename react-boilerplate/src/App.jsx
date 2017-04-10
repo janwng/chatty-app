@@ -9,9 +9,7 @@ class App extends Component {
     this.state = {
       currentUser: {name: 'Anonymous'}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
-      notifications: [],
-      connections: 0,
-      connectionLost: []
+      connections: 0
     };
 
     this.onNewMessage = this.onNewMessage.bind(this);
@@ -39,6 +37,7 @@ class App extends Component {
       notification: this.state.currentUser.name + ' has changed their name to ' + name
     }
     // Send the message to the chatty server
+    this.setState({currentUser: {name: name}});
     this.socket.send(JSON.stringify(newUsername));
   }
 
@@ -54,39 +53,30 @@ class App extends Component {
       // Receive message from server and console log it
       this.socket.onmessage = function(event) {
         let receivedMessage = JSON.parse(event.data);
-
         let stateMessages = parent.state.messages;
-        let stateUsername = parent.state.currentUser.name;
-        let stateNotifications = parent.state.notifications;
-        let stateConnectionLost = parent.state.connectionLost;
 
         switch(receivedMessage.type) {
           case 'postMessage':
-            let newMessage = stateMessages.concat(receivedMessage);
-            parent.setState({messages: newMessage});
-
-            console.log("MESSAGE:", newMessage);
+            stateMessages.push(receivedMessage);
+            parent.setState({messages: stateMessages});
+            console.log("MESSAGE:", receivedMessage);
             break;
 
           case 'postUsername':
-            parent.setState({currentUser: {name: receivedMessage.username}});
-
-            let newNotification = stateNotifications.concat(receivedMessage.notification);
-            parent.setState({notifications: newNotification});
-
-            console.log("change username to:", parent.state.currentUser.name);
+            stateMessages.push(receivedMessage);
+            parent.setState({messages: stateMessages});
+            console.log("MESSAGE:", receivedMessage.username);
             break;
 
           case 'connectionGain':
-            parent.setState({connections: receivedMessage.connections});
-            break;
+             parent.setState({connections: receivedMessage.connections});
+             console.log('connected:', parent.state.connections);
+             break;
 
-          case 'connectionLost':
-            parent.setState({connections: receivedMessage.connections});
-
-            let newConnectionLost = stateConnectionLost.concat(parent.state.currentUser.name + ' has left the channel.');
-            parent.setState({connectionLost: newConnectionLost})
-            break;
+           case 'connectionLost':
+             parent.setState({connections: receivedMessage.connections});
+             console.log('remaining:', parent.state.connections);
+             break;
         }
       }
     }
@@ -100,7 +90,7 @@ class App extends Component {
           <p className="online-users">{this.state.connections} user(s) online</p>
         </nav>
 
-        <MessageList messages={this.state.messages} notifications={this.state.notifications} connectionLost={this.state.connectionLost}/>
+        <MessageList messages={this.state.messages}/>
 
         <Chatbar currentUser={this.state.currentUser.name} onNewMessage={this.onNewMessage} onNewUsername={this.onNewUsername}/>
       </div>
